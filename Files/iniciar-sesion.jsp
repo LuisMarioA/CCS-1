@@ -35,11 +35,11 @@
         <h3>Cryptographic Corporate System</h3>
         <p>Sing Up.</p>
         <div class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0">
-            <form action="#" th:action="@{/logincheck}" method="post">
+            <form action="loginCheck" method="post">
                 <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
                 <div class="form-group">
                     <label for="user-email">e-mail:</label>
-                    <input type="email" placeholder="Correo electronico" class="form-control" name="email"
+                    <input type="email" placeholder="Correo electronico" class="form-control" name="correo"
                            id="user-email"
                            required>
                 </div>
@@ -56,9 +56,9 @@
         <p class="m-t">
             <small><a href="#">He olvidado mi contraseña</a></small>
         </p>
-        <div th:if="${error != null}" class="alert alert-danger" role="alert">
+        <!--div th:if="${error != null}" class="alert alert-danger" role="alert">
             Constraseña o email invalidos
-        </div>
+        </div-->
     </div>
 </div>
 
