@@ -1,7 +1,7 @@
 <%-- 
-    Document   : perfil
-    Created on : 28/05/2018, 02:21:58 PM
-    Author     : Esli
+    Document   : index
+    Created on : 30/05/2018, 09:07:43 PM
+    Author     : lm107
 --%>
 
 <%@page import="servlet.Consultas"%>
@@ -22,7 +22,7 @@
 <head >
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CCS Profile</title>
+    <title>CCS Home</title>
     <link href="static/css/bootstrap.min.css" rel="stylesheet">
     <link href="static/font-awesome/css/font-awesome.css" rel="stylesheet">
     <link href="static/css/animate.css" rel="stylesheet">
@@ -47,15 +47,15 @@
                         CCS
                     </div>
                 </li>
-                <li><a href="index.jsp"><i class="fa fa-home"></i> <span class="nav-label">Home</span></a></li>
-                <li class="active"><a href="#"><i class="fa fa-user-circle-o"></i> <span class="nav-label">Profile</span></a></li>                
+                <li class="active" ><a href="#"><i class="fa fa-home"></i> <span class="nav-label">Home</span></a></li>
+                <li><a href="perfil.jsp"><i class="fa fa-user-circle-o"></i> <span class="nav-label">Profile</span></a></li>                
                 <li><a href="subir.jsp"><i class="fa fa-files-o"></i> <span class="nav-label">Upload file</span></a></li>
-                <li><a href="files.jsp"><i class="fa fa-folder-o"></i> <span class="nav-label"> Your Files</span></a></li> 
+                <li><a href="files.jsp"><i class="fa fa-folder-o"></i> <span class="nav-label">Your Files</span></a></li> 
                 <li><a href="logout"><i class="fa fa-sign-out"></i> <span class="nav-label">Sing out</span></a></li>                
             </ul>
         </div>
     </nav>
-     <div id="page-wrapper" class="gray-bg">
+    <div id="page-wrapper" class="gray-bg">
         <div class="row border-bottom">
         <nav class="navbar navbar-static-top" role="navigation" style="margin-bottom: 0">
         <div class="navbar-header">
@@ -73,11 +73,8 @@
                 <div class="col-sm-4">
                     <h2>Profile</h2>
                     <ol class="breadcrumb">
-                        <li>
-                            <a href="index.jsp">Home</a>
-                        </li>
                         <li class="active">
-                            <strong>Perfil</strong>
+                            <strong>Home</strong>
                         </li>
                     </ol>
                 </div>
@@ -85,78 +82,11 @@
                     <% out.println("<label> " + datos[6] + ": " + datos[1]+ " " + datos[2] + " " + datos[3] + "</label>");%>
                 </div>
             </div>
-        <div class="wrapper wrapper-content animated fadeInRight">
-             <div class="ibox-content">
-                <h1 class="text-center">
-                    <span class="text-navy">Profile</span>
-                </h1>
-            <div class="ibox-content">
-                <div class="row">
-                    <div class="col-lg-6">
-                        <h2>Information</h2>
-                        <div class="row">
-                            <div class="col-sm-4 text-right">
-                                <label>Employee number: </label>
-                            </div>
-                            <div class="col-sm-2">
-                                <% out.println("<label>"+ (datos[0])+ "</label>");%>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-sm-4 text-right">
-                                <label>Name: </label>
-                            </div>
-                            <div class="col-sm-2">
-                                <% out.println("<label> "
-                                        + datos[1] +  " " +  datos[2] + " " +  datos[3]  
-                                        + "</label>");
-                                %>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-sm-4 text-right">
-                                <label>Department: </label>
-                            </div>
-                            <div class="col-sm-2">
-                                <% out.println("<label>"+ (datos[5])+ "</label>");%>
-                            </div>
-                        </div>
-                        <h2>Account</h2>
-                        <div class="row">
-                            <div class="col-sm-4 text-right">
-                                <label>e-mail: </label>
-                            </div>
-                            <div class="col-sm-2">
-                                <% out.println("<label>"+ (datos[4])+ "</label>");%>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-sm-4 text-right">
-                                <label>Password: </label>
-                            </div>
-                            <div class="col-sm-2">
-                                <a href="#" class="btn btn-sm btn-white" th:href="@{/personal/perfil/cambiar}">
-                                    Change Password
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-6">
-                        <div class="row">
-                            <div class="col">
-                                <div class="m-b-sm">
-                                    <img alt="image" style="width: 50%;height:5%; " class="img" src="static/img/CB2.png"
-                                         th:src="@{/img/escom.png}">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+     <div class="wrapper wrapper-content animated fadeInRight">
+        <center>
+            <img alt="image" class="img-responsive" src="static/img/CB2.png" />
+        </center>
     </div>
-</div>
-
 <div class="footer">
             <div class="pull-right">
                 10GB of <strong>250GB</strong> Free.
@@ -177,3 +107,4 @@
     <script src="static/js/plugins/pace/pace.min.js"></script>
 </body>
 </html>
+
