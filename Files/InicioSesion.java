@@ -41,8 +41,15 @@ public class InicioSesion extends HttpServlet {
             String pass = request.getParameter("password");
             if(con.autenticacion(correo, pass)){
                 HttpSession session = request.getSession(true);
-                session.setAttribute("usuario", correo);
-                response.sendRedirect("perfil.jsp");
+                session.setAttribute("correo", correo);
+                con = new Consultas();
+                String rol=con.obtenerJefe(correo);
+                if(rol.equals("Empleado"))
+                    response.sendRedirect("perfil.jsp");
+                else if (rol.equals("Jefe"))
+                   response.sendRedirect("perfilJefe.jsp");
+                else
+                    response.sendRedirect("iniciar-sesion.jsp");
             }else{
                 response.sendRedirect("iniciar-sesion.jsp");
             }
