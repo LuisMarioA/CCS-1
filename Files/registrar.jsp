@@ -58,7 +58,7 @@
                         <a href="#" th:href="@{/dch}">Inicio</a>
                     </li>
                     <li class="active">
-                        <strong>Registrar Docente</strong>
+                        <strong>Record</strong>
                     </li>
                 </ol>
             </div>
@@ -70,8 +70,8 @@
                     <div class="tab-content">
                         <div id="tab-1" class="tab-pane active">
                             <div class="panel-body">
-                                <form class="form-horizontal text-right" action="#"
-                                      th:action="@{/dch/registrar/docente}" method="post">
+                                <form class="form-horizontal text-left" action="Registro"
+                                      th:action="@{/Resgistro}" method="post" enctype="multipart/form-data">
                                     <div class="form-group">
                                         <label class="col-lg-4 ">Department: </label>
                                         <div class="col-lg-4">
@@ -92,7 +92,7 @@
                                         <label class="col-lg-4 ">Business position: </label>
                                         <div class="col-lg-4">
                                             <label>
-                                                <select class="form-control m-b" name="account" required>
+                                                <select class="form-control m-b" name="rool" required>
                                                     <option></option>
                                                     <option>Employee</option>
                                                     <option>Area Leader</option>
@@ -105,39 +105,39 @@
                                     <div class="form-group">
                                         <label class="col-lg-4 ">First Name: </label>
                                         <div class="col-lg-4">
-                                            <input type="text" placeholder="Nombre (s)" class="form-control" required>
-                                            <span class="help-block m-b-none text-danger"> * Dato no valido</span>
+                                            <input type="text" name ="nombre" placeholder="Name (s)" class="form-control" required>
+                                            <!--span class="help-block m-b-none text-danger"> * Dato no valido</span-->
                                         </div>
 
                                     </div>
                                     <div class="form-group">
                                         <label class="col-lg-4 ">Laste Name: </label>
                                         <div class="col-lg-4">
-                                            <input type="text" placeholder="Nombre (s)" class="form-control" required>
-                                            <span class="help-block m-b-none text-danger"> * Dato no valido</span>
+                                            <input type="text" name="apellido_p"placeholder="Last name" class="form-control" required>
+                                            <!--span class="help-block m-b-none text-danger"> * Dato no valido</span-->
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label class="col-lg-4 ">Last name: </label>
                                         <div class="col-lg-4">
-                                            <input type="text" placeholder="Nombre (s)" class="form-control" required>
-                                            <span class="help-block m-b-none text-danger"> * Dato no valido</span>
+                                            <input type="text" name="apellido_m"placeholder="Last name" class="form-control" required>
+                                           <!--span class="help-block m-b-none text-danger"> * Dato no valido</span-->
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label class="col-lg-4 ">e-mail: </label>
                                         <div class="col-lg-4">
-                                            <input type="email" placeholder="Numero de Empleado" class="form-control"
+                                            <input type="email" name="correo"placeholder="e-mail" class="form-control"
                                                    required>
-                                            <span class="help-block m-b-none text-danger"> * Dato no valido</span>
+                                            <!--span class="help-block m-b-none text-danger"> * Dato no valido</span-->
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label class="col-lg-4 ">Password: </label>
                                         <div class="col-lg-4">
-                                            <input type="password" placeholder="Numero de Empleado" class="form-control"
+                                            <input type="password" name="password"placeholder="Password" class="form-control"
                                                    required>
-                                            <span class="help-block m-b-none text-danger"> * Dato no valido</span>
+                                            <!--span class="help-block m-b-none text-danger"> * Dato no valido</span-->
                                         </div>
                                     </div>
                                   
@@ -148,7 +148,7 @@
                                         <div class="form-group">
                                             <div class="fileinput fileinput-new" data-provides="fileinput">
                                                 <span class="btn btn-default btn-file"><span class="fileinput-new">Key</span>
-                                                <span class="fileinput-exists">Change</span><input type="file" name="..."/></span>
+                                                <span class="fileinput-exists">Change</span><input name="pk"  type="file" name="..."/></span>
                                                 <span class="fileinput-filename"></span>
                                                 <a href="#" class="close fileinput-exists" data-dismiss="fileinput" style="float: none">×</a>
                                             </div> 
@@ -165,20 +165,20 @@
                                     </div>
                                     <div class="row">
                                         <div class="col-sm-offset-1 col-sm-3">
-                                            <span class="help-block m-b-none text-danger">
+                                            <!--span class="help-block m-b-none text-danger">
                                                 * No se registro al usuario
-                                            </span>
+                                            </span-->
                                         </div>
                                         <div class="col-sm-3">
-                                            <span class="help-block m-b-none text-danger">
+                                            <!--span class="help-block m-b-none text-danger">
                                                 * Complete todos los campos
                                                 obligatorios
-                                            </span>
+                                            </span-->
                                         </div>
                                         <div class="col-sm-3">
-                                            <span class="help-block m-b-none text-danger">
+                                            <!--span class="help-block m-b-none text-danger">
                                                 * Numero de empleado ya registrado
-                                            </span>
+                                            </span-->
                                         </div>
                                     </div>
                                 </form>

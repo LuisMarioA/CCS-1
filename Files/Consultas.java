@@ -1,9 +1,16 @@
+
 package servlet;
 
+import servlet.Conexion;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
+/**
+ *
+ * @author Esli
+ */
 public class Consultas extends Conexion{
+    
     public boolean autenticacion (String usuario, String contraseña){
         PreparedStatement pst=null;
         ResultSet rs=null;
@@ -29,8 +36,63 @@ public class Consultas extends Conexion{
         }
         return false;
     }
+    public boolean verificarCorreo (String correo){
+        PreparedStatement pst=null;
+        ResultSet rs=null;
+        try {
+            String consulta="select correo from empleado where correo=? ";
+            pst = getConnection().prepareStatement(consulta);
+            pst.setString(1, correo);
+            rs = pst.executeQuery();
+            if(rs.absolute(1)){
+                return true;
+            }
+        } catch (Exception e) {
+            System.out.println("Error:" +e);
+        }finally{
+            try {
+               // if(getConnection()!= null) getConnection().close();
+                if(pst != null) pst.close();
+                if(rs !=null) rs.close();
+            } catch (Exception e) {
+                System.out.println("Error:" +e);
+            }
+        }
+        return false;
+    }
     
-    public String infoPerfil (String usuario){
+    
+  public boolean registrar(String nombre, String apellido_p,String apellido_m,String correo,String password,int id_rool,int id_area,String pk){
+      PreparedStatement pst = null;
+      try {
+           String consulta="INSERT INTO empleado (nombre, apellido_p, apellido_m, correo, password, id_rool, id_area, pk) \n" +
+                                "VALUES (?, ?,?,?,?,?,?,?)";
+           pst = getConnection().prepareStatement(consulta);
+           pst.setString(1, nombre);
+           pst.setString(2, apellido_p);
+           pst.setString(3, apellido_m);
+           pst.setString(4, correo);
+           pst.setString(5, password);
+           pst.setInt(6, id_rool);
+           pst.setInt(7, id_area);
+           pst.setString(8, pk);
+           System.out.println("Insertanod "+ pst);
+           if(pst.executeUpdate()==1){
+               return true;
+           }
+      } catch (Exception e) {
+          System.out.println("Error"+ e);
+      }finally{
+            try {
+                if(getConnection() != null) getConnection().close();
+                if(pst != null) pst.close();
+            } catch (Exception e) {
+            }
+        }
+      return false;
+  }
+  
+  public String infoPerfil (String usuario){
         PreparedStatement pst=null;
         ResultSet rs=null;
         try {
@@ -101,8 +163,8 @@ public class Consultas extends Conexion{
         }
         return null;
     }
-    
-    public String obtenerJefe (String usuario){
+  
+  public String obtenerJefe (String usuario){
         PreparedStatement pst=null;
         ResultSet rs=null;
         try {
@@ -130,10 +192,12 @@ public class Consultas extends Conexion{
         }
         return null;
     }
-    
     public static void main(String[] args) {
         Consultas con= new Consultas();
-        System.out.println(con.obtenerJefe("fer@gmail.com"));
-        
+       // System.out.println(con.autenticacion("esli@gmail.com","esli"));
+       // System.out.println(con.registrar("Margarita", "Rodriguez", "Perez", "margarita@gamil.com", "margarita", 2, 2, "margarita.key"));
+       //System.out.println(con.obtenerJefe("fer@gmail.com"));
+        System.out.println(con.verificarCorreo("esli@gmail.com"));
     }
+    
 }
