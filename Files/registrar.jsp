@@ -39,7 +39,7 @@
                         SII
                     </div>
                 </li>
-                <li><a href="index.html"><i class="fa fa-home"></i> <span class="nav-label">Home</span></a></li>
+                <li><a href="index.jsp"><i class="fa fa-home"></i> <span class="nav-label">Home</span></a></li>
                               
                 <li class="active"><a href="#"><i class="fa fa-files-o"></i> <span class="nav-label">Rregister user</span></a></li>
                               

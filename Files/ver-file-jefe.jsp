@@ -4,7 +4,19 @@
     Author     : Esli
 --%>
 
+<%@page import="servlet.Consultas"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%
+  HttpSession objSession = request.getSession(true);
+  String correo = (String) objSession.getAttribute("correo");
+  if(correo.equals(""))
+    response.sendRedirect("iniciar-sesion.jsp");
+  Consultas con = new Consultas();
+  String info="";
+  if((info=con.infoPerfil(correo))==null)
+    response.sendRedirect("iniciar-sesion.jsp");
+  String[] datos=info.split(",");
+%>
 <!DOCTYPE html>
 <html>
 
@@ -44,11 +56,11 @@
                         SII
                     </div>
                 </li>
-                <li><a href="indexJefe.html"><i class="fa fa-home"></i> <span class="nav-label">Home</span></a></li>
-                <li><a href="perfilJEfe.html"><i class="fa fa-user-circle-o"></i> <span class="nav-label">Profile</span></a></li>                
+                <li><a href="indexJefe.jsp"><i class="fa fa-home"></i> <span class="nav-label">Home</span></a></li>
+                <li><a href="perfilJEfe.jsp"><i class="fa fa-user-circle-o"></i> <span class="nav-label">Profile</span></a></li>                
                 <li ><a href="#"><i class="fa fa-files-o"></i> <span class="nav-label">Upload file</span></a></li>
-                <li><a href="filesJefe.html"><i class="fa fa-folder-o"></i> <span class="nav-label">Your Files</span></a></li> 
-                <li class="active"><a href="aprobarJefe.html"><i class="fa fa-folder-o"></i> <span class="nav-label">Approval Files</span></a></li>
+                <li><a href="filesJefe.jsp"><i class="fa fa-folder-o"></i> <span class="nav-label">Your Files</span></a></li> 
+                <li class="active"><a href="aprobarJefe.jsp"><i class="fa fa-folder-o"></i> <span class="nav-label">Approval Files</span></a></li>
                 <li><a href="#"><i class="fa fa-sign-out"></i> <span class="nav-label">Sing out</span></a></li>                
             </ul>
 
@@ -73,10 +85,10 @@
                     <h2>Upload File</h2>
                     <ol class="breadcrumb">
                         <li>
-                            <a href="index.html">Home</a>
+                            <a href="index.jsp">Home</a>
                         </li>
                         <li>
-                            <a href="files.html">Aprproval Files</a>
+                            <a href="files.jsp">Aprproval Files</a>
                         </li>
                         <li class="active">
                             <strong>View Approval File</strong>
@@ -84,7 +96,7 @@
                     </ol>
                 </div>
                 <div class="col-sm-8 text-right">
-                    <label>XXX | XXXX XXXX XXXX</label>
+                    <% out.println("<label> " + datos[6] + ": " + datos[1]+ " " + datos[2] + " " + datos[3] + "</label>");%>  
                 </div>
             </div>
         <div class="wrapper wrapper-content animated fadeInRight">

@@ -4,7 +4,19 @@
     Author     : Esli
 --%>
 
+<%@page import="servlet.Consultas"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%
+  HttpSession objSession = request.getSession(true);
+  String correo = (String) objSession.getAttribute("correo");
+  if(correo.equals(""))
+    response.sendRedirect("iniciar-sesion.jsp");
+  Consultas con = new Consultas();
+  String info="";
+  if((info=con.infoPerfil(correo))==null)
+    response.sendRedirect("iniciar-sesion.jsp");
+  String[] datos=info.split(",");
+%>
 <!DOCTYPE html>
 <html>
 
@@ -21,6 +33,13 @@
     <link href="static/css/plugins/dropzone/dropzone.css" rel="stylesheet">
     <link href="static/css/plugins/jasny/jasny-bootstrap.min.css" rel="stylesheet">
     <link href="static/css/plugins/codemirror/codemirror.css" rel="stylesheet">
+<scrip>
+    function enviar (destino){
+    doc.formulario.arction=destino;
+    doc.formulario.submit();
+    }
+    
+</scrip>
 </head>
 <body>
     <div id="wrapper">
@@ -36,10 +55,10 @@
                         SII
                     </div>
                 </li>
-                <li><a href="index.html"><i class="fa fa-home"></i> <span class="nav-label">Home</span></a></li>
-                <li><a href="perfil.html"><i class="fa fa-user-circle-o"></i> <span class="nav-label">Profile</span></a></li>                
+                <li><a href="index.jsp"><i class="fa fa-home"></i> <span class="nav-label">Home</span></a></li>
+                <li><a href="perfil.jsp"><i class="fa fa-user-circle-o"></i> <span class="nav-label">Profile</span></a></li>                
                 <li class="active"><a href="#"><i class="fa fa-files-o"></i> <span class="nav-label">Upload file</span></a></li>
-                <li><a href="files.html"><i class="fa fa-folder-o"></i> <span class="nav-label">Your Files</span></a></li> 
+                <li><a href="files.jsp"><i class="fa fa-folder-o"></i> <span class="nav-label">Your Files</span></a></li> 
                 <li><a href="#"><i class="fa fa-sign-out"></i> <span class="nav-label">Sing out</span></a></li>                
             </ul>
 
@@ -64,7 +83,7 @@
                     <h2>Upload File</h2>
                     <ol class="breadcrumb">
                         <li>
-                            <a href="index.html">Home</a>
+                            <a href="index.jsp">Home</a>
                         </li>
                         <li class="active">
                             <strong>Upload File</strong>
@@ -72,7 +91,7 @@
                     </ol>
                 </div>
                 <div class="col-sm-8 text-right">
-                    <label>XXX | XXXX XXXX XXXX</label>
+                    <% out.println("<label> " + datos[6] + ": " + datos[1]+ " " + datos[2] + " " + datos[3] + "</label>");%>  
                 </div>
             </div>
         <div class="wrapper wrapper-content animated fadeInRight">
@@ -81,7 +100,8 @@
                 <h1 class="text-center">
                     <span class="text-navy">Upload File</span>
                 </h1>
-                <form class="form-horizontal">
+                <form class="form-horizontal" action="Subir"
+                                      th:action="@{/Subir}" method="post" enctype="multipart/form-data">
                 
                     <div class="form-group"><label class="col-lg-4 ">Recipient: </label></div>
                     <div class="row">
@@ -99,20 +119,20 @@
                         </div>
                          <div class="col-sm-8 center">  
                             <div class="form-group"><select class="col-lg-6" name="tipoDocumento"  style="width: 225px">
-                                <option th:value="1">Proceso</option>
-                                <option th:value="2">Caso de Uso</option>
-                                <option th:value="3">Análisis completo</option>
-                                <option th:value="4">Minuta</option>
+                                <option >Proceso</option>
+                                <option >Caso de Uso</option>
+                                <option >Análisis completo</option>
+                                <option >Minuta</option>
                             </select>
                         </div>
                         </div>
                     </div>
-                    <div class="form-group"><label class="col-lg-4 "> File Name: </label></div>
+                    <div class="form-group"><label class="col-lg-4 "> Project: </label></div>
                     <div class="row">
                         <div class="col-sm-4">   
                         </div>
                         <div class="col-sm-8 center">
-                            <div class="form-group"> <input type="text" style="width: 225px" placeholder="File Name" class="col-lg-6" name="filenme"
+                            <div class="form-group"> <input type="text" style="width: 225px" placeholder="Project" class="col-lg-6" name="project"
                            id="filename" required></div>
                             
                         </div>
@@ -122,7 +142,7 @@
                         <div class="col-sm-4">   
                         </div>
                         <div class="col-sm-8 center">
-                            <div class="form-group"><textarea class="col-lg-6" style="height: 75px"></textarea></div>
+                            <div class="form-group"><textarea class="col-lg-6" style="height: 75px" name ="description"></textarea></div>
                             
                         </div>
                     </div>
@@ -134,7 +154,7 @@
                             <div class="form-group">
                                 <div class="fileinput fileinput-new" data-provides="fileinput">
                                     <span class="btn btn-default btn-file"><span class="fileinput-new">File</span>
-                                    <span class="fileinput-exists">Change</span><input type="file" name="..."/></span>
+                                    <span class="fileinput-exists">Change</span><input name= "file" type="file" name="..."/></span>
                                     <span class="fileinput-filename"></span>
                                     <a href="#" class="close fileinput-exists" data-dismiss="fileinput" style="float: none">×</a>
                                 </div> 
@@ -149,7 +169,7 @@
                             <div class="form-group">
                                 <div class="fileinput fileinput-new" data-provides="fileinput">
                                     <span class="btn btn-default btn-file"><span class="fileinput-new">Key</span>
-                                    <span class="fileinput-exists">Change</span><input type="file" name="..."/></span>
+                                    <span class="fileinput-exists">Change</span><input name ="privatekey"type="file" name="..."/></span>
                                     <span class="fileinput-filename"></span>
                                     <a href="#" class="close fileinput-exists" data-dismiss="fileinput" style="float: none">×</a>
                                 </div> 
@@ -163,12 +183,12 @@
                         </div>
                         <div class="col-sm-4">
                             <div class="form-group">
-                                    <button class="btn btn-sm btn-white" type="submit">Enviar</button>
+                                    <button class="btn btn-sm btn-white"  name ="enviar" type="submit">Upload</button>
                             </div>
                         </div>
                         <div class="col-sm-4">
                             <div class="form-group">
-                                    <button class="btn btn-sm btn-white" type="submit">Cancelar</button>
+                                    <button class="btn btn-sm btn-white" name ="cancelar" type="submit">Cancel</button>
                             </div>
                         </div>
                     </div>

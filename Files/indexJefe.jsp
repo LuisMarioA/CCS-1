@@ -80,7 +80,7 @@
                     </ol>
                 </div>
                 <div class="col-sm-8 text-right">
-                    <% out.println("<label> " + datos[6] + ": " + datos[1]+ " " + datos[2] + " " + datos[3] + "</label>");%>                    <% out.println("<label> "  + datos[1]+ " " + datos[2] + " " + datos[3] + "</label>");%>
+                    <% out.println("<label> " + datos[6] + ": " + datos[1]+ " " + datos[2] + " " + datos[3] + "</label>");%>                    
                 </div>
             </div>
      <div class="wrapper wrapper-content animated fadeInRight">

@@ -63,12 +63,11 @@ public class Registro extends HttpServlet {
        
        String nom []= correo.split(".com");
        
-       String filename= nom[0]+".key";                 // nombre que va a la base de datos
+       String filename= nom[0]+".txt";                 // nombre que va a la base de datos
 
        InputStream is = arch.getInputStream();
-       File rutaFile=new File("D:\\esli-\\Documents\\NetBeansProjects\\ProyectoCripto\\src\\java\\servlet\\Files\\llaves\\");
-       String ruta=rutaFile.getAbsolutePath();
-       File f=new File(ruta+filename);
+       String path ="D:\\esli-\\Documents\\NetBeansProjects\\ProyectoCripto\\src\\java\\servlet\\Files\\llaves\\";
+       File f=new File(path+filename);
        FileOutputStream ous = new FileOutputStream(f);
        int dato= is.read();
        while(dato!=-1){

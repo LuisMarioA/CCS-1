@@ -192,6 +192,39 @@ public class Consultas extends Conexion{
         }
         return null;
     }
+  
+  public boolean documento(String nombre, String apellido_p,String apellido_m,String correo,String password,int id_rool,int id_area,String pk){
+      PreparedStatement pst = null;
+      try {
+           String consulta="INSERT INTO docuemnto(id_doc, apellido_p, apellido_m, correo, password, id_rool, id_area, pk) \n" +
+                                "VALUES (?, ?,?,?,?,?,?,?)";
+           pst = getConnection().prepareStatement(consulta);
+           pst.setString(1, nombre);
+           pst.setString(2, apellido_p);
+           pst.setString(3, apellido_m);
+           pst.setString(4, correo);
+           pst.setString(5, password);
+           pst.setInt(6, id_rool);
+           pst.setInt(7, id_area);
+           pst.setString(8, pk);
+           System.out.println("Insertanod "+ pst);
+           if(pst.executeUpdate()==1){
+               return true;
+           }
+      } catch (Exception e) {
+          System.out.println("Error"+ e);
+      }finally{
+            try {
+                if(getConnection() != null) getConnection().close();
+                if(pst != null) pst.close();
+            } catch (Exception e) {
+            }
+        }
+      return false;
+  }
+  
+  
+  
     public static void main(String[] args) {
         Consultas con= new Consultas();
        // System.out.println(con.autenticacion("esli@gmail.com","esli"));
