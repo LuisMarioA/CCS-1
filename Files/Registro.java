@@ -60,7 +60,7 @@ public class Registro extends HttpServlet {
        }
 //-----------------------------------Cargar archivos      
        else{
-       
+       con= new Consultas();
        String nom []= correo.split(".com");
        
        String filename= nom[0]+".txt";                 // nombre que va a la base de datos

@@ -9,7 +9,6 @@
 <%
   HttpSession objSession = request.getSession(true);
   String correo = (String) objSession.getAttribute("correo");
-  String archivo = (String) request.getParameter("archivo");
   if(correo.equals(""))
     response.sendRedirect("iniciar-sesion.jsp");
   Consultas con = new Consultas();
@@ -59,7 +58,7 @@
                 </li>
                 <li><a href="index.jsp"><i class="fa fa-home"></i> <span class="nav-label">Home</span></a></li>
                 <li><a href="perfil.jsp"><i class="fa fa-user-circle-o"></i> <span class="nav-label">Profile</span></a></li>                
-                <li><a href="subir.jsp"><i class="fa fa-files-o"></i> <span class="nav-label">Upload file</span></a></li>
+                <li class="active"><a href="#"><i class="fa fa-files-o"></i> <span class="nav-label">Upload file</span></a></li>
                 <li><a href="files.jsp"><i class="fa fa-folder-o"></i> <span class="nav-label">Your Files</span></a></li> 
                 <li><a href="logout"><i class="fa fa-sign-out"></i> <span class="nav-label">Sing out</span></a></li>                
             </ul>
@@ -111,10 +110,11 @@
                         <div class="row">
                             <div class="col-sm-4 text-right">
                                 <label>File Name: </label>
+                                
                             </div>
                             <div class="col-sm-2">
-                                <label>
-                                    <%out.println(archivo);%> 
+                                <label th:text="${datos.nombre} + ' ' + ${datos.apellidoPaterno} + ' ' +  ${datos.apellidoMaterno}">
+                                    
                                 </label>
                             </div>
                         </div>
@@ -124,7 +124,12 @@
                     <center>
                     <div class="row"> 
                     <div id="portapdf"> 
-                        <object data="C:/Users/lm107/Desktop/pantallas.pdf" type="application/pdf" width="100%" height="100%"/> </object>
+                    <%
+                    String file = getInitParameter("archivo");
+                    String ruta="Files\\"+file;
+                    %>
+                    <iframe src="=${ruta}" width="800" height="600" ></iframe>
+                        <!--embed src="D:\esli-\Documents\NetBeansProjects\ProyectoCripto\src\java\servlet\Files\OsorioRodriguezEsliJ-DES-AES.pdf"  width="100%" height="100%"/--> 
                     </div></div>   
                     <div class="row">
                           <div class="form-group">
@@ -157,7 +162,7 @@
 <!-- Icons -->
 <script src="https://unpkg.com/feather-icons/dist/feather.min.js"></script>
 <script>
-    feather.replace()
+    feather.replace();
 </script>
 
 <!-- Graphs -->

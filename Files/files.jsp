@@ -115,8 +115,9 @@
                                                 "<td>" + datosFile[1] + "</td>" );
                                     %>
                                     <td>
-                                        <form action="ver-file.jsp" method="post"> 
-                                            <input type="hidden" name="archivo" value=<%out.println(idUser + datosFile[0]);%>>
+                                        <form action="Verificar" th:action="@{/Verificar}" method="post"> 
+                                            <input type="hidden" name="user" value=<%out.println(idUser );%>>
+                                            <input type="hidden" name="archivo" value=<%out.println(datosFile[0]);%>>
                                             <input type="submit" class="btn btn-sm btn-primary m-t-n-xs" value="View File">
                                         </form>
                                     </td>

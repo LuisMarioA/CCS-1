@@ -59,7 +59,7 @@
                 <li><a href="perfil.jsp"><i class="fa fa-user-circle-o"></i> <span class="nav-label">Profile</span></a></li>                
                 <li class="active"><a href="#"><i class="fa fa-files-o"></i> <span class="nav-label">Upload file</span></a></li>
                 <li><a href="files.jsp"><i class="fa fa-folder-o"></i> <span class="nav-label">Your Files</span></a></li> 
-                <li><a href="#"><i class="fa fa-sign-out"></i> <span class="nav-label">Sing out</span></a></li>                
+                <li><a href="logout"><i class="fa fa-sign-out"></i> <span class="nav-label">Sing out</span></a></li>                
             </ul>
 
         </div>
@@ -108,7 +108,7 @@
                         <div class="col-sm-4">   
                         </div>
                         <div class="col-sm-8 center">
-                            <div class="form-group"> <input type="text" style="width: 225px" placeholder="Employee number" class="col-lg-6" name="Recipient"
+                            <div class="form-group"> <input type="number" style="width: 225px" placeholder="Employee number" class="col-lg-6" name="Recipient"
                            id="Recipient" required></div>
                             
                         </div>
@@ -119,20 +119,20 @@
                         </div>
                          <div class="col-sm-8 center">  
                             <div class="form-group"><select class="col-lg-6" name="tipoDocumento"  style="width: 225px">
-                                <option >Proceso</option>
-                                <option >Caso de Uso</option>
-                                <option >Análisis completo</option>
+                                <option >Process</option>
+                                <option >Use Case</option>
+                                <option >Analysis</option>
                                 <option >Minuta</option>
                             </select>
                         </div>
                         </div>
                     </div>
-                    <div class="form-group"><label class="col-lg-4 "> Project: </label></div>
+                    <div class="form-group"><label class="col-lg-4 " > Project: </label></div>
                     <div class="row">
                         <div class="col-sm-4">   
                         </div>
                         <div class="col-sm-8 center">
-                            <div class="form-group"> <input type="text" style="width: 225px" placeholder="Project" class="col-lg-6" name="project"
+                            <div class="form-group"> <input type="number" style="width: 225px" placeholder="Project" class="col-lg-6" name="project"
                            id="filename" required></div>
                             
                         </div>

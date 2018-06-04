@@ -4,6 +4,7 @@ package servlet;
 import servlet.Conexion;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.ArrayList;
 
 /**
  *
@@ -51,7 +52,7 @@ public class Consultas extends Conexion{
             System.out.println("Error:" +e);
         }finally{
             try {
-               // if(getConnection()!= null) getConnection().close();
+                if(getConnection()!= null) getConnection().close();
                 if(pst != null) pst.close();
                 if(rs !=null) rs.close();
             } catch (Exception e) {
@@ -164,7 +165,7 @@ public class Consultas extends Conexion{
         return null;
     }
   
-  public String obtenerJefe (String usuario){
+    public String obtenerJefe (String usuario){
         PreparedStatement pst=null;
         ResultSet rs=null;
         try {
@@ -192,37 +193,6 @@ public class Consultas extends Conexion{
         }
         return null;
     }
-  
-  public boolean documento(String nombre, String apellido_p,String apellido_m,String correo,String password,int id_rool,int id_area,String pk){
-      PreparedStatement pst = null;
-      try {
-           String consulta="INSERT INTO docuemnto(id_doc, apellido_p, apellido_m, correo, password, id_rool, id_area, pk) \n" +
-                                "VALUES (?, ?,?,?,?,?,?,?)";
-           pst = getConnection().prepareStatement(consulta);
-           pst.setString(1, nombre);
-           pst.setString(2, apellido_p);
-           pst.setString(3, apellido_m);
-           pst.setString(4, correo);
-           pst.setString(5, password);
-           pst.setInt(6, id_rool);
-           pst.setInt(7, id_area);
-           pst.setString(8, pk);
-           System.out.println("Insertanod "+ pst);
-           if(pst.executeUpdate()==1){
-               return true;
-           }
-      } catch (Exception e) {
-          System.out.println("Error"+ e);
-      }finally{
-            try {
-                if(getConnection() != null) getConnection().close();
-                if(pst != null) pst.close();
-            } catch (Exception e) {
-            }
-        }
-      return false;
-  }
-  
     public ArrayList<String> obtenerArchivosAprobados (String usuario){
         PreparedStatement pst=null;
         ResultSet rs=null;
@@ -300,7 +270,7 @@ public class Consultas extends Conexion{
         }
         return null;
     }
-  
+    
     public int obtenerId(String usuario){
         PreparedStatement pst=null;
         ResultSet rs=null;
@@ -326,13 +296,120 @@ public class Consultas extends Conexion{
         }
         return 0;
     }  
+   
+    public boolean documento(String nombre, int id_proyecto,int id_tipo, String descripcion, int id_elaboro, int id_aprobo, int id_estado){
+      PreparedStatement pst = null;
+      ResultSet rs=null;
+      try {
+           String consulta="INSERT INTO documento(nombre, id_proyecto, id_tipo, descripcion)\n" +
+                                "VALUES (?,?,?,?)";
+           pst = getConnection().prepareStatement(consulta);
+           pst.setString(1, nombre);
+           pst.setInt(2, id_proyecto);
+           pst.setInt(3, id_tipo);
+           pst.setString(4, descripcion);
+           System.out.println("Insertando "+ pst);
+           if(pst.executeUpdate()==1){
+               String consulta2="SELECT id_doc from documento where nombre=? and  id_proyecto= ?";
+               pst = getConnection().prepareStatement(consulta2);
+               pst.setString(1, nombre);
+               pst.setInt(2, id_proyecto);
+               rs = pst.executeQuery();
+               if(rs.absolute(1)){
+                    int id_doc=rs.getInt("id_doc");
+                    String consulta3="INSERT INTO doc_estado(id_elaboro, id_aprobo, id_doc, id_estado)\n" +
+                                "VALUES (?,?,?,?)";
+                    pst = getConnection().prepareStatement(consulta3);
+                    pst.setInt(1, id_elaboro);
+                    pst.setInt(2, id_aprobo);
+                    pst.setInt(3, id_doc);
+                    pst.setInt(4, id_estado);
+                    System.out.println(pst);
+                    if(pst.executeUpdate()==1){
+                        return true;
+                    }else{
+                        return false;
+                    }
+               }else{
+                   return false;
+               }
+           }
+      } catch (Exception e) {
+          System.out.println("Error"+ e);
+      }finally{
+            try {
+                if(getConnection() != null) getConnection().close();
+                if(pst != null) pst.close();
+                if(rs !=null) rs.close();
+            } catch (Exception e) {
+            }
+        }
+      return false;
+  }
+  
+    public int getId_emp (String correo){
+        PreparedStatement pst=null;
+        ResultSet rs=null;
+        try {
+            String consulta="select id_empleado from empleado where correo=? ";
+            pst = getConnection().prepareStatement(consulta);
+            pst.setString(1, correo);
+            rs = pst.executeQuery();
+            if(rs.absolute(1)){
+                int id=rs.getInt("id_empleado");
+                return id;
+            }
+        } catch (Exception e) {
+            System.out.println("Error:" +e);
+        }finally{
+            try {
+                if(getConnection()!= null) getConnection().close();
+                if(pst != null) pst.close();
+                if(rs !=null) rs.close();
+                if(rs !=null) rs.close();
+            } catch (Exception e) {
+                System.out.println("Error:" +e);
+            }
+        }
+        return 0;
+    }
     
+    public String obtener_keys(int id){
+        PreparedStatement pst=null;
+        ResultSet rs=null;
+        try {
+            String consulta="select pk from empleado where id_empleado=? ";
+            pst = getConnection().prepareStatement(consulta);
+            pst.setInt(1, id);
+            rs = pst.executeQuery();
+            if(rs.absolute(1)){
+                String keys=rs.getString("pk");
+                return keys;
+            }
+        } catch (Exception e) {
+            System.out.println("Error:" +e);
+        }finally{
+            try {
+                if(getConnection()!= null) getConnection().close();
+                if(pst != null) pst.close();
+                if(rs !=null) rs.close();
+                if(rs !=null) rs.close();
+            } catch (Exception e) {
+                System.out.println("Error:" +e);
+            }
+        }
+        return null;
+    }
+  
     public static void main(String[] args) {
         Consultas con= new Consultas();
        // System.out.println(con.autenticacion("esli@gmail.com","esli"));
        // System.out.println(con.registrar("Margarita", "Rodriguez", "Perez", "margarita@gamil.com", "margarita", 2, 2, "margarita.key"));
        //System.out.println(con.obtenerJefe("fer@gmail.com"));
-        System.out.println(con.verificarCorreo("esli@gmail.com"));
+        //System.out.println(con.verificarCorreo("esli@gmail.com"));
+       //System.out.println(con.documento( "prueba2", 1, 1, "Aqui ando",1,6 ,3));
+        //System.out.println(con.getId_emp("fer@gmail.com"));
+        System.out.println(con.obtener_keys(1));
     }
     
 }

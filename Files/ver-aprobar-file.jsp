@@ -61,7 +61,7 @@
                 <li><a href="#"><i class="fa fa-files-o"></i> <span class="nav-label">Upload file</span></a></li>
                 <li><a href="filesJefe.jsp"><i class="fa fa-folder-o"></i> <span class="nav-label">Your Files</span></a></li> 
                 <li class="active"><a href="aprobarJefe..jsp"><i class="fa fa-folder-o"></i> <span class="nav-label">Approval Files</span></a></li>
-                <li><a href="#"><i class="fa fa-sign-out"></i> <span class="nav-label">Sing out</span></a></li>                
+                <li><a href="logout"><i class="fa fa-sign-out"></i> <span class="nav-label">Sing out</span></a></li>                
             </ul>
 
         </div>

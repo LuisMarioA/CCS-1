@@ -90,15 +90,16 @@ public class Subir extends HttpServlet {
         PrintWriter out=response.getWriter();
         
     //********************************************************LECTURA DE CAMPOS EN EL FORMULARIO ************
-        String recipient= request.getParameter("Recipient");
+        int recipient= Integer.parseInt(request.getParameter("Recipient"));
         String doc= request.getParameter("tipoDocumento" );
-        String project= request.getParameter("project");
+        int project= Integer.parseInt(request.getParameter("project"));
         String desc= request.getParameter("description"); 
         Part file= request.getPart("file");    // File---lo que recibe del formulario
         Part privkey= request.getPart("privatekey");    // la llave que subio para firmar
         String enviar =request.getParameter("enviar");
         String cancelar =request.getParameter("cancelar");
         String nombre []= file.getSubmittedFileName().split("\\\\");
+        
         //---------------------------------------------------------VER CUAL BOTÓN SELECCIONA
         if(cancelar != null){
           response.sendRedirect("index.jsp");
@@ -166,29 +167,48 @@ public class Subir extends HttpServlet {
                 String textandciphermd5 = final_word + "&" + ciphersha;
                 
                 //-----------------------------------------------------------AES USANDO OFB--------------------------------
-                 out.println("AES" );
-                initAES("OFB", skey);//OFB ECB...
+                 //out.println("AES" );
+                initAES("ECB", skey);//OFB ECB...
                 stringToStream(textandciphermd5);
                 
                     //Encrypting the file
                     try (FileOutputStream fos = new FileOutputStream(path+nombre[nombre.length-1]) //encrypted
                     ) {
                         //Encrypting the file
-                        out.println("Aqui" );
+                        ///out.println("Aqui" );
                         encryptOrDecrypt(isInput, fos, ecipher);
-                        
-                        out.println(textandciphermd5);
                     }
             } catch (NoSuchAlgorithmException ex) {
                 out.println("Erro"+ex );
             } catch (Exception ex) {
                out.println("Erro"+ex );
             }
-                
-       
-            //out.println("SE SUPONE QUE YA ESTÁ ESTA MADRE DE SUBIR " );
-            response.sendRedirect("files.jsp");
-      
+        //------------------------------------ANALIZANDO PARA INSERTAR
+            try {
+  
+            String correo=(String) request.getSession().getAttribute("correo");
+            
+                int td=0;
+                if(doc.equals("Use Case")){td=1;}
+                else if(doc.equals("Process")){td=2;}
+                else if (doc.equals("Analysis")){td=3;}
+                else if (doc.equals("Minuta")){td=4;}
+                Consultas con= new Consultas();
+                int id_empleado=con.getId_emp (correo);
+                con= new Consultas();
+                if(con.documento(nombre[nombre.length-1], project, td, desc,  id_empleado, recipient,  3)){
+                    con = new Consultas();
+                    String rol=con.obtenerJefe(correo);
+                    if(rol.equals("Empleado"))
+                        response.sendRedirect("files.jsp"); 
+                    else if (rol.equals("Jefe"))
+                       response.sendRedirect("filesJefe.jsp");
+                } 
+
+        } catch (Exception e) {
+            out.println("error" + e);
+            }
+        
             
     }
 }
@@ -207,19 +227,6 @@ public class Subir extends HttpServlet {
         os.close();
     }
 
-    //DES
-    public void initDES(String mode, SecretKey key) throws Exception {
-        ecipher = Cipher.getInstance("DES/" + mode + "/PKCS5Padding");
-        dcipher = Cipher.getInstance("DES/" + mode + "/PKCS5Padding");
-
-        if (mode.equals("ECB")) {
-            ecipher.init(Cipher.ENCRYPT_MODE, key);
-            dcipher.init(Cipher.DECRYPT_MODE, key);
-        } else {
-            ecipher.init(Cipher.ENCRYPT_MODE, key, iv8);
-            dcipher.init(Cipher.DECRYPT_MODE, key, iv8);
-        }
-    }
 
     //AES
     public void initAES(String mode, SecretKeySpec skey) throws Exception {
