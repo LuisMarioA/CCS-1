@@ -44,6 +44,7 @@ import javax.crypto.CipherOutputStream;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
+import servlet.RSA;
 //--------------------------------------------------------------------------------
 /**
  *
@@ -129,6 +130,7 @@ public class Subir extends HttpServlet {
                                 out.println("Erro"+ex );
                             }
                         }
+                        System.out.println("final word"+final_word);
            //-------------------------------------------LECTURA DE LLAVES PRIVADAS------------------------------- 
                 InputStream key = privkey.getInputStream();
                 caracter2 = key.read(buffer);
@@ -149,6 +151,8 @@ public class Subir extends HttpServlet {
                             } catch (IOException ex) {   
                             }
                         }
+                        System.out.println("key n"+key_n);
+                        System.out.println("key_d"+key_d);
         //----------------------------------------------------------------HASH---------------------------------------
             try {
                 
@@ -160,12 +164,16 @@ public class Subir extends HttpServlet {
                     sha += Integer.toHexString((resumen2[i] >> 4) & 0xf);
                     sha += Integer.toHexString(resumen2[i] & 0xf);
                 }
+                
                 //-------------------------------------------------------------RSA---------------------------------------
                
-                RSA rsa = new RSA(new BigInteger(key_n), new BigInteger(key_d));
+                RSA rsa = new RSA();
+                rsa.setD(new BigInteger(key_d));
+                rsa.setN(new BigInteger(key_n));
+                System.out.println("sha:"+sha);
                 String ciphersha = rsa.encrypt(sha, new BigInteger(key_d), new BigInteger(key_n));
                 String textandciphermd5 = final_word + "&" + ciphersha;
-                
+                System.out.println("shacifrado: "+ciphersha);
                 //-----------------------------------------------------------AES USANDO OFB--------------------------------
                  //out.println("AES" );
                 initAES("ECB", skey);//OFB ECB...

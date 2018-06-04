@@ -4,6 +4,8 @@
     Author     : Esli
 --%>
 
+<%@page import="java.io.BufferedReader"%>
+<%@page import="java.io.PrintWriter"%>
 <%@page import="servlet.Consultas"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%
@@ -16,6 +18,10 @@
   if((info=con.infoPerfil(correo))==null)
     response.sendRedirect("iniciar-sesion.jsp");
   String[] datos=info.split(",");
+  
+    String archivo= request.getParameter("archivo");
+    String file="Files\\"+archivo;
+    System.out.println("File en ver-file---->"+file);
 %>
 <!DOCTYPE html>
 <html>
@@ -109,8 +115,8 @@
                       
                         <div class="row">
                             <div class="col-sm-4 text-right">
-                                <label>File Name: </label>
                                 
+                                <label>File Name:<%out.println(archivo);%></label>
                             </div>
                             <div class="col-sm-2">
                                 <label th:text="${datos.nombre} + ' ' + ${datos.apellidoPaterno} + ' ' +  ${datos.apellidoMaterno}">
@@ -124,11 +130,8 @@
                     <center>
                     <div class="row"> 
                     <div id="portapdf"> 
-                    <%
-                    String file = getInitParameter("archivo");
-                    String ruta="Files\\"+file;
-                    %>
-                    <iframe src="=${ruta}" width="800" height="600" ></iframe>
+                    
+                    <iframe src<%=file%> width="800" height="600" ></iframe>
                         <!--embed src="D:\esli-\Documents\NetBeansProjects\ProyectoCripto\src\java\servlet\Files\OsorioRodriguezEsliJ-DES-AES.pdf"  width="100%" height="100%"/--> 
                     </div></div>   
                     <div class="row">

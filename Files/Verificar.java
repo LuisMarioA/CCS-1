@@ -124,8 +124,8 @@ public class Verificar extends HttpServlet {
                     bandera = 1;
                 }
             }
-            out.println("texto: " + text);
-            out.println("ciphershaormd5: " + ciphershaormd5);
+            System.out.println("texto: " + text);
+            System.out.println("ciphershaormd5: " + ciphershaormd5);
             
             String keys = path+con.obtener_keys(user);
             byte[] buffer = new byte[1];
@@ -171,20 +171,27 @@ public class Verificar extends HttpServlet {
             }
             String correo=(String) request.getSession().getAttribute("correo");
             if (sha.equals(md5orsha)) {
-                FileOutputStream fos = new FileOutputStream(path2+archivo);
-                stringToStream(output);
-                fos.write(input.getBytes(StandardCharsets.UTF_8));
-                fos.close();
+                
+                stringToStream(text);
+                System.out.println("Output:" + text);
+                System.out.println(path2+archivo);
+                File fi = new File(path2+archivo);
+                try (FileOutputStream fos = new FileOutputStream(fi)){
+                    fos.write(text.getBytes(StandardCharsets.UTF_8));
+                    fos.close();
+                } catch (Exception e) {
+                    System.out.println("Error-->"+e);
+                }
+
                
                     con = new Consultas();
                     String rol=con.obtenerJefe(correo);
                     if(rol.equals("Empleado")){
-                        request.setAttribute("archivo",archivo );
-                        response.sendRedirect("ver-file.jsp"); 
-                        request.getRequestDispatcher("ver-file.jsp").forward(request, response);
+                        //request.setAttribute("archivo",archivo);
+                        response.sendRedirect("ver-file.jsp?archivo="+archivo); 
                     }else if (rol.equals("Jefe")){
-                       request.setAttribute("archivo",archivo );
-                       response.sendRedirect("ver-file.jsp");
+                       //request.setAttribute("archivo",archivo );
+                       response.sendRedirect("ver-fileJefe.jsp");
                     }
             } else{
                 out.println("MAL MAL MAL");
