@@ -1,10 +1,19 @@
-<%-- 
-    Document   : aprobarJefe
-    Created on : 28/05/2018, 10:10:58 AM
-    Author     : Esli
---%>
-
+<%@page import="java.util.ArrayList"%>
+<%@page import="servlet.Consultas"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%
+  HttpSession objSession = request.getSession(true);
+  String correo = (String) objSession.getAttribute("correo");
+  if(correo.equals(""))
+    response.sendRedirect("iniciar-sesion.jsp");
+  Consultas con = new Consultas();
+  String info="";
+  if((info=con.infoPerfil(correo))==null)
+    response.sendRedirect("iniciar-sesion.jsp");
+  String[] datos=info.split(",");
+  con = new Consultas();
+  ArrayList<String> files=con.obtenerArchivosAprobados(correo);
+%>
 <!DOCTYPE html>
 <html>
 
@@ -35,12 +44,12 @@
                         CCS
                     </div>
                 </li>
-                <li><a href="indexJefe.html"><i class="fa fa-home"></i> <span class="nav-label">Home</span></a></li>
-                <li><a href="perfilJefe.html"><i class="fa fa-user-circle-o"></i> <span class="nav-label">Profile</span></a></li>                
-                <li><a href="subirJefe.html"><i class="fa fa-files-o"></i> <span class="nav-label">Upload file</span></a></li>
-                <li ><a href="filesJefe.html"><i class="fa fa-folder-o"></i> <span class="nav-label">Your Files</span></a></li> 
+                <li><a href="index..jsp"><i class="fa fa-home"></i> <span class="nav-label">Home</span></a></li>
+                <li><a href="perfil.jsp"><i class="fa fa-user-circle-o"></i> <span class="nav-label">Profile</span></a></li>                
+                <li><a href="subir.jsp"><i class="fa fa-files-o"></i> <span class="nav-label">Upload file</span></a></li>
+                <li><a href="filesJefe.jsp"><i class="fa fa-folder-o"></i> <span class="nav-label">Files</span></a></li> 
                 <li class="active"><a href="#"><i class="fa fa-folder-o"></i> <span class="nav-label">Approval Files</span></a></li> 
-                <li><a href="#"><i class="fa fa-sign-out"></i> <span class="nav-label">Sing out</span></a></li>                
+                <li><a href="logout"><i class="fa fa-sign-out"></i> <span class="nav-label">Sing out</span></a></li>                
             </ul>
 
         </div>
@@ -64,15 +73,15 @@
                     <h2>Files</h2>
                     <ol class="breadcrumb">
                         <li>
-                            <a href="index.html">Home</a>
+                            <a href="index.jsp">Home</a>
                         </li>
                         <li class="active">
-                            <strong>Approval Files</strong>
+                            <strong>Files</strong>
                         </li>
                     </ol>
                 </div>
                 <div class="col-sm-8 text-right">
-                    <label>XXX | XXXX XXXX XXXX</label>
+                   <% out.println("<label> " + datos[6] + ": " + datos[1]+ " " + datos[2] + " " + datos[3] + "</label>");%>
                 </div>
             </div>
            
@@ -80,7 +89,7 @@
         <div class="wrapper wrapper-content animated fadeInRight">
              <div class="ibox-content">
                 <h1 class="text-center">
-                    <span class="text-navy">Approval Files</span>
+                    <span class="text-navy">Files</span>
                 </h1>
             <div class="row">
                 <div class="col-lg-12">
@@ -90,7 +99,6 @@
                             <table class="footable table table-stripped" data-page-size="8" data-filter=#filter>
                                 <thead>
                                 <tr>
-                                    <th>Date</th>
                                     <th>Name</th>
                                     <th>Type</th>
                                     <th>View</th>
@@ -98,24 +106,29 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr th:each="justificante : ${justificantes}">
-                                    <td th:text="${justificante.getFechaAsString()}"> fecha</td>
-                                    <td th:text="${justificante.getFechaAsString()}">nombre</td>
-                                    <td th:text="${justificante.getTipo()}">
-                                        
-                                    </td>
+                                    <%
+                                        for(String file : files){
+                                            String[] datosFile=file.split(",");    
+                                            out.println("<tr>" +
+                                                "<td>" + datosFile[0] +  "</td>" +
+                                                "<td>" + datosFile[1] + "</td>" );
+                                    %>
                                     <td>
                                         <a href="#" th:href="@{/personal/verjustificante}">
                                             <i class="fa fa-eye"></i>
                                         </a>
                                     </td>
-
-                                    <td th:switch="${justificante.getEstado().toLowerCase()}">
-                                        <span th:case="'aceptado'"><i class="fa fa-check-circle"></i></span>
-                                        <span th:case="'espera'"><i class="fa fa-clock-o"></i></span>
-                                        <span th:case="'rechazado'"><i class="fa fa-times"></i></span>
-                                    </td>
-                                </tr>
+                                    <%
+                                            if(datosFile[2].equals("Aprobado"))
+                                                out.println("<td><i class='fa fa-check-circle'></i></td>");
+                                            if(datosFile[2].equals("Espera"))
+                                                out.println("<td><i class='fa fa-clock-o'></i></td>");
+                                            if(datosFile[2].equals("Rechazado"))
+                                                out.println("<td><i class='fa fa-times'></i></td>");
+                                        }
+                                    %>
+                                            
+                                        </tr> 
                                 </tbody>
                             </table>
                         </div>

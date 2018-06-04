@@ -1,9 +1,4 @@
-<%-- 
-    Document   : filesJefe
-    Created on : 28/05/2018, 10:13:48 AM
-    Author     : Esli
---%>
-
+<%@page import="java.util.ArrayList"%>
 <%@page import="servlet.Consultas"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%
@@ -16,6 +11,8 @@
   if((info=con.infoPerfil(correo))==null)
     response.sendRedirect("iniciar-sesion.jsp");
   String[] datos=info.split(",");
+  con = new Consultas();
+  ArrayList<String> files=con.obtenerArchivosElaborados(correo);
 %>
 <!DOCTYPE html>
 <html>
@@ -47,12 +44,12 @@
                         CCS
                     </div>
                 </li>
-                <li><a href="indexJefe.jsp"><i class="fa fa-home"></i> <span class="nav-label">Home</span></a></li>
-                <li><a href="perfilJefe.jsp"><i class="fa fa-user-circle-o"></i> <span class="nav-label">Profile</span></a></li>                
-                <li><a href="subirJefe.jsp"><i class="fa fa-files-o"></i> <span class="nav-label">Upload file</span></a></li>
-                <li class="active"><a href="#"><i class="fa fa-folder-o"></i> <span class="nav-label">Your Files</span></a></li> 
+                <li><a href="index..jsp"><i class="fa fa-home"></i> <span class="nav-label">Home</span></a></li>
+                <li><a href="perfil.jsp"><i class="fa fa-user-circle-o"></i> <span class="nav-label">Profile</span></a></li>                
+                <li><a href="subir.jsp"><i class="fa fa-files-o"></i> <span class="nav-label">Upload file</span></a></li>
+                <li class="active"><a href="#"><i class="fa fa-folder-o"></i> <span class="nav-label">Files</span></a></li> 
                 <li><a href="aprobarJefe.jsp"><i class="fa fa-folder-o"></i> <span class="nav-label">Approval Files</span></a></li> 
-                <li><a href="#"><i class="fa fa-sign-out"></i> <span class="nav-label">Sing out</span></a></li>                
+                <li><a href="logout"><i class="fa fa-sign-out"></i> <span class="nav-label">Sing out</span></a></li>                
             </ul>
 
         </div>
@@ -84,7 +81,7 @@
                     </ol>
                 </div>
                 <div class="col-sm-8 text-right">
-                     <% out.println("<label> " + datos[6] + ": " + datos[1]+ " " + datos[2] + " " + datos[3] + "</label>");%>                   
+                   <% out.println("<label> " + datos[6] + ": " + datos[1]+ " " + datos[2] + " " + datos[3] + "</label>");%>
                 </div>
             </div>
            
@@ -102,7 +99,6 @@
                             <table class="footable table table-stripped" data-page-size="8" data-filter=#filter>
                                 <thead>
                                 <tr>
-                                    <th>Date</th>
                                     <th>Name</th>
                                     <th>Type</th>
                                     <th>View</th>
@@ -110,24 +106,29 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr th:each="justificante : ${justificantes}">
-                                    <td th:text="${justificante.getFechaAsString()}"> fecha</td>
-                                    <td th:text="${justificante.getFechaAsString()}">nombre</td>
-                                    <td th:text="${justificante.getTipo()}">
-                                        
-                                    </td>
+                                    <%
+                                        for(String file : files){
+                                            String[] datosFile=file.split(",");    
+                                            out.println("<tr>" +
+                                                "<td>" + datosFile[0] +  "</td>" +
+                                                "<td>" + datosFile[1] + "</td>" );
+                                    %>
                                     <td>
                                         <a href="#" th:href="@{/personal/verjustificante}">
                                             <i class="fa fa-eye"></i>
                                         </a>
                                     </td>
-
-                                    <td th:switch="${justificante.getEstado().toLowerCase()}">
-                                        <span th:case="'aceptado'"><i class="fa fa-check-circle"></i></span>
-                                        <span th:case="'espera'"><i class="fa fa-clock-o"></i></span>
-                                        <span th:case="'rechazado'"><i class="fa fa-times"></i></span>
-                                    </td>
-                                </tr>
+                                    <%
+                                            if(datosFile[2].equals("Aprobado"))
+                                                out.println("<td><i class='fa fa-check-circle'></i></td>");
+                                            if(datosFile[2].equals("Espera"))
+                                                out.println("<td><i class='fa fa-clock-o'></i></td>");
+                                            if(datosFile[2].equals("Rechazado"))
+                                                out.println("<td><i class='fa fa-times'></i></td>");
+                                        }
+                                    %>
+                                            
+                                        </tr> 
                                 </tbody>
                             </table>
                         </div>
