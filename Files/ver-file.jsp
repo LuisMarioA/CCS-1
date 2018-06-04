@@ -9,6 +9,7 @@
 <%
   HttpSession objSession = request.getSession(true);
   String correo = (String) objSession.getAttribute("correo");
+  String archivo = (String) request.getParameter("archivo");
   if(correo.equals(""))
     response.sendRedirect("iniciar-sesion.jsp");
   Consultas con = new Consultas();
@@ -58,9 +59,9 @@
                 </li>
                 <li><a href="index.jsp"><i class="fa fa-home"></i> <span class="nav-label">Home</span></a></li>
                 <li><a href="perfil.jsp"><i class="fa fa-user-circle-o"></i> <span class="nav-label">Profile</span></a></li>                
-                <li class="active"><a href="#"><i class="fa fa-files-o"></i> <span class="nav-label">Upload file</span></a></li>
+                <li><a href="subir.jsp"><i class="fa fa-files-o"></i> <span class="nav-label">Upload file</span></a></li>
                 <li><a href="files.jsp"><i class="fa fa-folder-o"></i> <span class="nav-label">Your Files</span></a></li> 
-                <li><a href="#"><i class="fa fa-sign-out"></i> <span class="nav-label">Sing out</span></a></li>                
+                <li><a href="logout"><i class="fa fa-sign-out"></i> <span class="nav-label">Sing out</span></a></li>                
             </ul>
 
         </div>
@@ -112,8 +113,8 @@
                                 <label>File Name: </label>
                             </div>
                             <div class="col-sm-2">
-                                <label th:text="${datos.nombre} + ' ' + ${datos.apellidoPaterno} + ' ' +  ${datos.apellidoMaterno}">
-                                    Jaime Lopez Rabadan
+                                <label>
+                                    <%out.println(archivo);%> 
                                 </label>
                             </div>
                         </div>
@@ -123,7 +124,7 @@
                     <center>
                     <div class="row"> 
                     <div id="portapdf"> 
-                        <object data="Ruta PDF o URL" type="application/pdf" width="100%" height="100%"/> </object>
+                        <object data="C:/Users/lm107/Desktop/pantallas.pdf" type="application/pdf" width="100%" height="100%"/> </object>
                     </div></div>   
                     <div class="row">
                           <div class="form-group">

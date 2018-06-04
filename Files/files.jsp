@@ -13,6 +13,8 @@
   String[] datos=info.split(",");
   con = new Consultas();
   ArrayList<String> files=con.obtenerArchivosElaborados(correo);
+  con = new Consultas();
+  int idUser=con.obtenerId(correo);
 %>
 <!DOCTYPE html>
 <html>
@@ -44,7 +46,7 @@
                         CCS
                     </div>
                 </li>
-                <li><a href="index..jsp"><i class="fa fa-home"></i> <span class="nav-label">Home</span></a></li>
+                <li><a href="index.jsp"><i class="fa fa-home"></i> <span class="nav-label">Home</span></a></li>
                 <li><a href="perfil.jsp"><i class="fa fa-user-circle-o"></i> <span class="nav-label">Profile</span></a></li>                
                 <li><a href="subir.jsp"><i class="fa fa-files-o"></i> <span class="nav-label">Upload file</span></a></li>
                 <li class="active"><a href="#"><i class="fa fa-folder-o"></i> <span class="nav-label">Files</span></a></li> 
@@ -113,9 +115,10 @@
                                                 "<td>" + datosFile[1] + "</td>" );
                                     %>
                                     <td>
-                                        <a href="#" th:href="@{/personal/verjustificante}">
-                                            <i class="fa fa-eye"></i>
-                                        </a>
+                                        <form action="ver-file.jsp" method="post"> 
+                                            <input type="hidden" name="archivo" value=<%out.println(idUser + datosFile[0]);%>>
+                                            <input type="submit" class="btn btn-sm btn-primary m-t-n-xs" value="View File">
+                                        </form>
                                     </td>
                                     <%
                                             if(datosFile[2].equals("Aprobado"))
