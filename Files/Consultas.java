@@ -301,6 +301,32 @@ public class Consultas extends Conexion{
         return null;
     }
   
+    public int obtenerId(String usuario){
+        PreparedStatement pst=null;
+        ResultSet rs=null;
+        try {
+            String consulta="select id_empleado from empleado where correo=?";
+            pst = getConnection().prepareStatement(consulta);
+            pst.setString(1, usuario);
+            rs = pst.executeQuery();
+            if(rs.absolute(1)){
+                int id=rs.getInt("id_empleado");
+                    return id;  
+            }
+        } catch (Exception e) {
+            System.out.println("Error:" +e);
+        }finally{
+            try {
+                if(getConnection()!= null) getConnection().close();
+                if(pst != null) pst.close();
+                if(rs !=null) rs.close();
+            } catch (Exception e) {
+                System.out.println("Error:" +e);
+            }
+        }
+        return 0;
+    }  
+    
     public static void main(String[] args) {
         Consultas con= new Consultas();
        // System.out.println(con.autenticacion("esli@gmail.com","esli"));
