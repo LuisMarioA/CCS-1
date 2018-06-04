@@ -223,7 +223,83 @@ public class Consultas extends Conexion{
       return false;
   }
   
-  
+    public ArrayList<String> obtenerArchivosAprobados (String usuario){
+        PreparedStatement pst=null;
+        ResultSet rs=null;
+        ArrayList <String> datos=new ArrayList<>(); 
+        try {
+            String consulta=""+
+                "select em.id_empleado as id, em.nombre as Aprobo,"
+                +    "d.nombre as documento,t.nombre as tipo,"
+                +    "es.nombre as estado "
+                +"from tipo_doc t inner join documento d on d.id_tipo=t.id_tipo "
+                +    "inner join doc_estado e on e.id_doc=d.id_doc "
+                +    "inner join empleado em on em.id_empleado=e.id_aprobo " 
+                +    "inner join estado es on es.id_estado=e.id_estado "
+                +"where em.correo=?";
+            pst = getConnection().prepareStatement(consulta);
+            pst.setString(1, usuario);
+            rs = pst.executeQuery();
+            while(rs.next()){
+                String doc=rs.getString("documento");
+                String tipo=rs.getString("tipo");
+                String estado=rs.getString("estado");
+                datos.add(doc+","+tipo+","+estado);
+            }
+            return datos;
+            
+        } catch (Exception e) {
+            System.out.println("Error:" +e);
+        }finally{
+            try {
+                if(getConnection()!= null) getConnection().close();
+                if(pst != null) pst.close();
+                if(rs !=null) rs.close();
+            } catch (Exception e) {
+                System.out.println("Error:" +e);
+            }
+        }
+        return null;
+    }
+    
+    public ArrayList<String> obtenerArchivosElaborados (String usuario){
+        PreparedStatement pst=null;
+        ResultSet rs=null;
+        ArrayList <String> datos=new ArrayList<>(); 
+        try {
+            String consulta=""+
+                "select em.id_empleado as id, em.nombre as Aprobo,"
+                +    "d.nombre as documento,t.nombre as tipo,"
+                +    "es.nombre as estado "
+                +"from tipo_doc t inner join documento d on d.id_tipo=t.id_tipo "
+                +    "inner join doc_estado e on e.id_doc=d.id_doc "
+                +    "inner join empleado em on em.id_empleado=e.id_elaboro " 
+                +    "inner join estado es on es.id_estado=e.id_estado "
+                +"where em.correo=?";
+            pst = getConnection().prepareStatement(consulta);
+            pst.setString(1, usuario);
+            rs = pst.executeQuery();
+            while(rs.next()){
+                String doc=rs.getString("documento");
+                String tipo=rs.getString("tipo");
+                String estado=rs.getString("estado");
+                datos.add(doc+","+tipo+","+estado);
+            }
+            return datos;
+            
+        } catch (Exception e) {
+            System.out.println("Error:" +e);
+        }finally{
+            try {
+                if(getConnection()!= null) getConnection().close();
+                if(pst != null) pst.close();
+                if(rs !=null) rs.close();
+            } catch (Exception e) {
+                System.out.println("Error:" +e);
+            }
+        }
+        return null;
+    }
   
     public static void main(String[] args) {
         Consultas con= new Consultas();
